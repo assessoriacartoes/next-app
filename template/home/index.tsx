@@ -2,6 +2,7 @@ import { Layout } from 'antd';
 import * as S from './styles'
 import Image from 'next/image'
 import { useEffect, useState } from 'react';
+import withAuth from '../../components/withAuth';
 const { Header, Content } = Layout;
 
 export type User = {
@@ -16,8 +17,9 @@ export type User = {
   tipoDeUsuario: number
 }
 
-function Home() {
+const Home = () => {
   const [user, setUser] = useState<any>()
+
   useEffect(() => {
     if (typeof window !== 'undefined') {
       const currentUser: any | string = JSON.parse(window.localStorage.getItem('cliente') || '{}')
@@ -25,6 +27,7 @@ function Home() {
     } else {
     }
   }, [])
+
   return (
     <Layout className="layout" >
       <Header
@@ -48,7 +51,6 @@ function Home() {
       </Header>
       <Content style={{ backgroundColor: "white" }}>
         <S.SiteLayoutContent>
-          {/* eslint-disable-next-line jsx-a11y/iframe-has-title */}
           {user && <S.Iframe title="Dashboard_Brasbol_Recuperado 2" src={user?.powerBi} frameBorder="0" allowFullScreen={true} />}
         </S.SiteLayoutContent>
       </Content>
@@ -56,4 +58,4 @@ function Home() {
   )
 }
 
-export default Home;
+export default withAuth(Home);

@@ -10,7 +10,7 @@ export type LoginForm = {
   senha: string,
 }
 
-const Login: React.FC = () => {
+const Login = () => {
   const router = useRouter()
 
   const onFinish = async (values: LoginForm) => {
@@ -21,7 +21,7 @@ const Login: React.FC = () => {
         if (response.data.cliente.tipoDeUsuario === 1) {
           localStorage.setItem('user', JSON.stringify(response.data.cliente.tipoDeUsuario));
           localStorage.setItem('cliente', JSON.stringify(response.data.cliente));
-          router.push('/admin')
+          router.push('/admin',)
           return
         }
         localStorage.setItem('user', JSON.stringify(response.data.cliente.tipoDeUsuario));

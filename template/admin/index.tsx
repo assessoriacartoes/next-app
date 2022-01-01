@@ -13,6 +13,7 @@ import { LoadingOutlined, UploadOutlined } from '@ant-design/icons';
 import { toast } from 'react-toastify'
 import Image from 'next/image'
 import Table from '../../components/Table'
+import withAuth from '../../components/withAuth';
 
 import api from '../../service/api'
 import * as S from './styles'
@@ -38,7 +39,7 @@ export type SaveNewClientForm = {
   id: any
 }
 
-const Admin: React.FC = () => {
+const Admin = () => {
   const [selectedFile, setSelectedFile] = useState<any>(null);
   const [cliente, setCliente] = useState<SaveNewClientForm | null>(null);
   const [isSpinning, setIsSpinning] = useState<boolean>(false)
@@ -172,4 +173,4 @@ const Admin: React.FC = () => {
   )
 }
 
-export default Admin;
+export default withAuth(Admin);

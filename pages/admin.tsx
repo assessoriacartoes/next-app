@@ -17,5 +17,5 @@ export default function LoginPage() {
     }, [])
 
 
-    return user === 2 ? <Admin /> : router.push('/home')
+    return <Admin />
 }
