@@ -1,8 +1,8 @@
 import { Layout } from 'antd';
 import * as S from './styles'
-import Image from 'next/image'
 import { useEffect, useState } from 'react';
-import withAuth from '../../components/withAuth';
+import { useRouter } from 'next/router'
+
 const { Header, Content } = Layout;
 
 export type User = {
@@ -19,10 +19,12 @@ export type User = {
 
 const Home = () => {
   const [user, setUser] = useState<any>()
+  const router = useRouter()
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      const currentUser: any | string = JSON.parse(window.localStorage.getItem('cliente') || '{}')
+      const currentUser: any | string = JSON.parse(window.localStorage.getItem('user') || '{}')
+      console.log(currentUser)
       setUser(currentUser)
     } else {
     }
@@ -30,11 +32,11 @@ const Home = () => {
 
   return (
     <Layout className="layout" >
-      <Header
+      <header
         style={{
           backgroundColor: "#f0f2f5",
           display: 'flex',
-          height: "auto",
+          height: "80px",
           maxHeight: "60px",
           justifyContent: "center",
           alignItems: "center"
@@ -47,8 +49,10 @@ const Home = () => {
         </S.ContainerWord>
         <S.MenuContainer>
           <span><a target="_blank" rel="noopener noreferrer" href={`${user?.conciliador}`} >CONCILIADOR</a></span>
+          {user == 1 && <span><a onClick={() => router.push("/admin")}>ADMIN</a></span>}
+
         </S.MenuContainer>
-      </Header>
+      </header>
       <Content style={{ backgroundColor: "white" }}>
         <S.SiteLayoutContent>
           {user && <S.Iframe title="Dashboard_Brasbol_Recuperado 2" src={user?.powerBi} frameBorder="0" allowFullScreen={true} />}
@@ -58,4 +62,4 @@ const Home = () => {
   )
 }
 
-export default withAuth(Home);
+export default Home

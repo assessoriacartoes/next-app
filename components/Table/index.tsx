@@ -16,7 +16,12 @@ export default function TableSimuled() {
     const [isLoading, setIsLoading] = useState(true)
     const [data, setData] = useState()
     const [trigger, setTrigger] = useState(0)
-
+    const fakeData = [{
+        email: 'opa',
+        password: 'senhasenha',
+        powerBi: "wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwpowwwwwwwwwwwwwwwwwwwwwwwwwwwwpowwwwwwwwwwwwwwwwwwwwwwwwwwwwpowwwwwwwwwwwwwwwwwwwwwwwwwwwwpowwwwwwwwwwwwwwwwwwwwwwwwwwwwpowwwwwwwwwwwwwwwwwwwwwwwwwwwwpowwwwwwwwwwwwwwwwwwwwwwwwwwwwpowwwwwwwwwwwwwwwwwwwwwwwwwwwwpowwwwwwwwwwwwwwwwwwwwwwwwwwwwpowwwwwwwwwwwwwwwwwwwwwwwwwwwwpowwwwwwwwwwwwwwwwwwwwwwwwwwwwpowwwwwwwwwwwwwwwwwwwwwwwwwwwwpowwwwwwwwwwwwwwwwwwwwwwwwwwwwpowwwwwwwwwwwwwwwwwwwwwwwwwwwwpowwwwwwwwwwwwwwwwwwwwwwwwwwwwpowerBipowerBipowerBipowerBiwwwaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        id: "1"
+    }]
     const columns = [
         {
             title: 'Email',
@@ -64,7 +69,7 @@ export default function TableSimuled() {
             .catch(function (error: any) {
                 setIsLoading(false)
 
-                toast.error(`Um erro inesperado aconteceu ${error.response.status}`)
+                toast.error(`Um erro inesperado aconteceu ${error.response?.status}`)
             });
     }
 
@@ -77,7 +82,7 @@ export default function TableSimuled() {
                 })
                 .catch(function (error: any) {
                     setIsLoading(false)
-                    toast.error(`Um erro inesperado aconteceu ${error.response.status}`)
+                    toast.error(`Um erro inesperado aconteceu ${error.response?.status}`)
                 });
         }
         getSimuleds()
@@ -87,9 +92,9 @@ export default function TableSimuled() {
     return (<>
         <S.Tools>
         </S.Tools>
-        <S.DivTable>
-            <Table pagination={{ pageSize: 6 }} loading={isLoading} columns={columns} dataSource={data} scroll={{ y: 430 }} />
-        </S.DivTable>
+        <div className="DivTable">
+            <Table pagination={{ pageSize: 6 }} loading={isLoading} columns={columns} dataSource={fakeData} scroll={{ y: 430 }} />
+        </div>
     </>
     )
 }

@@ -14,3 +14,23 @@ a {
 * {
   box-sizing: border-box;
 }
+#__next{
+  height:50vh;
+}
+
+.DivTable{
+  height: 610px;
+  width: 90%;
+  margin: 0 2rem 0 2rem;
+}
+
+.DivTable .ant-btn{
+  margin: 2px;
+  border-radius: 4px;
+}
+
+.DivTable .ant-table-cell{
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

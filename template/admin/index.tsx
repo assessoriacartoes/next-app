@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Spin,
   Layout,
@@ -13,7 +13,6 @@ import { LoadingOutlined, UploadOutlined } from '@ant-design/icons';
 import { toast } from 'react-toastify'
 import Image from 'next/image'
 import Table from '../../components/Table'
-import withAuth from '../../components/withAuth';
 
 import api from '../../service/api'
 import * as S from './styles'
@@ -39,7 +38,7 @@ export type SaveNewClientForm = {
   id: any
 }
 
-const Admin = () => {
+const Admin: any = () => {
   const [selectedFile, setSelectedFile] = useState<any>(null);
   const [cliente, setCliente] = useState<SaveNewClientForm | null>(null);
   const [isSpinning, setIsSpinning] = useState<boolean>(false)
@@ -59,7 +58,7 @@ const Admin = () => {
     await api.post(`/api/cliente`, values).then(function (response: any) {
       SaveLogo(response.data.cliente.id)
     }).catch(function (error: any) {
-      toast.error(`Um erro inesperado aconteceu ${error.response.status}`)
+      toast.error(`Um erro inesperado aconteceu ${error.response?.status}`)
     });
   };
 
@@ -75,7 +74,7 @@ const Admin = () => {
         setCliente(response.data);
 
       }).catch(function (error: any) {
-        toast.error(`Um erro inesperado aconteceu ${error.response.status}`)
+        toast.error(`Um erro inesperado aconteceu ${error.response?.status}`)
       });
   }
 
@@ -83,12 +82,22 @@ const Admin = () => {
     setSelectedFile(file);
   }
 
+  const [user, setUser] = useState<any>()
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const currentUser: any | string = JSON.parse(window.localStorage.getItem('cliente') || '{}')
+      setUser(currentUser)
+    } else {
+    }
+  }, [])
+
   const antIcon = <LoadingOutlined style={{ fontSize: 34, color: "#2ce414" }} spin />
 
   return (
     <Spin indicator={antIcon} spinning={isSpinning}>
       <Layout className="layout">
-        <Header
+        <header
           style={{
             backgroundColor: "#f0f2f5",
             display: 'flex',
@@ -97,19 +106,31 @@ const Admin = () => {
             justifyContent: "center",
             alignItems: "center"
           }}>
-          <S.ContainerImage>
+          <div style={{
+            marginRight: "auto",
+            marginLeft: "10%",
+            width: "fit-content"
+          }}>
             <Image width={160} height={40} src="/assessoria.png" alt="logo" />
-          </S.ContainerImage>
-        </Header>
-        <Content style={{ backgroundColor: "white", padding: '50px 50px', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', }}>
+          </div>
+        </header>
+        <main style={{ backgroundColor: "white", padding: '50px 50px', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column', }}>
           <Breadcrumb style={{ margin: '16px 0' }}>
           </Breadcrumb>
-          <S.SiteLayoutContent>
+          <div style={{
+            minHeight: "280px",
+            padding: "40px 30px 24px 24px",
+            width: "600px",
+            background: "#fff",
+            boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
+            marginBottom: "20px",
+
+          }}>
             <S.ContainerTitle>
               <Title level={3}>Cadastre um novo cliente</Title>
             </S.ContainerTitle>
-            <S.FormContainer>
-              <Form {...layout} name="nest-messages" onFinish={(values) => onFinish(values)} >
+            <div>
+              <Form {...layout} name="nest-messages" style={{ textAlign: "center" }} onFinish={(values) => onFinish(values)} >
                 <Form.Item
                   name='email'
                   label="E-mail"
@@ -163,14 +184,14 @@ const Admin = () => {
                   </Button>
                 </Form.Item>
               </Form>
-            </S.FormContainer>
-          </S.SiteLayoutContent>
+            </div>
+          </div>
           <Table />
-        </Content>
+        </main>
       </Layout>
     </Spin>
 
   )
 }
 
-export default withAuth(Admin);
+export default Admin

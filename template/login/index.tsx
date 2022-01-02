@@ -1,3 +1,4 @@
+import React from 'react';
 import { Form, Input, Button } from 'antd';
 import * as S from './styles'
 import { Typography } from 'antd';
@@ -17,24 +18,19 @@ const Login = () => {
     await api.post(`api/login`, values).then(function (response: any) {
       if (response.data.success) {
         console.log("response", response)
-
-        if (response.data.cliente.tipoDeUsuario === 1) {
+        if (response.data.cliente.tipoDeUsuario) {
           localStorage.setItem('user', JSON.stringify(response.data.cliente.tipoDeUsuario));
           localStorage.setItem('cliente', JSON.stringify(response.data.cliente));
-          router.push('/admin',)
+          router.push('/home',)
           return
         }
-        localStorage.setItem('user', JSON.stringify(response.data.cliente.tipoDeUsuario));
-        localStorage.setItem('cliente', JSON.stringify(response.data.cliente));
-        router.push('/home')
-        return
       }
 
       toast.error(`${response.data.messageError}`)
     })
       .catch(function (error: any) {
-        console.log('error', error.message)
-        toast.error(`Um erro inesperado aconteceu ${error.response.status}`)
+        console.log('error', error.response)
+        toast.error(`Um erro inesperado aconteceu ${error.response?.status}`)
       });
   };
 
@@ -44,8 +40,20 @@ const Login = () => {
     console.log('Failed:', errorInfo);
   };
 
-  return (
-    <S.Container>
+  return (<>
+    <main style={{
+      display: "flex",
+      flexDirection: "column",
+      width: "500px",
+      marginTop: "300px",
+      marginLeft: "auto",
+      marginRight: "auto",
+      height: "auto",
+      borderRadius: "4px",
+      padding: "24px",
+      boxShadow: "rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
+      textAlign: "center"
+    }}>
       <Title level={3}>Bem-vindo(a)!</Title>
       <p>Faça login para acessar sua conta</p>
       <Form
@@ -82,7 +90,8 @@ const Login = () => {
           </Button>
         </Form.Item>
       </Form>
-    </S.Container>
+    </main>
+  </>
   );
 };
 
